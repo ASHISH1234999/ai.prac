@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Practicals – Copyable Code</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fa;
+        margin: 20px;
+        color: #222;
+    }
+    h2 {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    pre {
+        background-color: #1e1e1e;
+        color: #dcdcdc;
+        padding: 15px;
+        border-radius: 10px;
+        overflow-x: auto;
+        font-family: Consolas, monospace;
+        line-height: 1.4;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<script>
+function copyCode(id) {
+    const code = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        alert("✅ Code copied to clipboard!");
+    });
+}
+</script>
+</head>
+<body>
+
+<h2>Practical A: BFS Traversal</h2>
+<button onclick="copyCode('code1')">📋 Copy Code</button>
+<pre id="code1">
+from collections import deque
+
+def bfs(graph, start):
+    visited = set()
+    queue = deque([start])
+    while queue:
+        vertex = queue.popleft()
+        if vertex not in visited:
+            visited.add(vertex)
+            print(vertex)
+            neighbors = graph[vertex]
+            for neighbor in neighbors:
+                if neighbor not in visited:
+                    queue.append(neighbor)
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+start_vertex = 'A'
+bfs(graph, start_vertex)
+</pre>
+
+<h2>Practical B: Iterative DFS Shortest Path</h2>
+<button onclick="copyCode('code2')">📋 Copy Code</button>
+<pre id="code2">
+from collections import defaultdict
+
+class Graph:
+    def __init__(self):
+        self.graph = defaultdict(list)
+
+    def add_edge(self, u, v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+
+    def iterative_dfs(self, start, end):
+        if start == end:
+            return [start]
+        visited = set()
+        stack = [(start, [start])]
+        while stack:
+            current_vertex, path = stack.pop()
+            visited.add(current_vertex)
+            for neighbor in self.graph[current_vertex]:
+                if neighbor not in visited:
+                    if neighbor == end:
+                        return path + [neighbor]
+                    stack.append((neighbor, path + [neighbor]))
+        return None
+
+if __name__ == "__main__":
+    g = Graph()
+    g.add_edge(1, 2)
+    g.add_edge(1, 3)
+    g.add_edge(2, 4)
+    g.add_edge(2, 5)
+    g.add_edge(3, 6)
+    g.add_edge(3, 7)
+    g.add_edge(4, 8)
+    g.add_edge(4, 9)
+    g.add_edge(5, 10)
+    g.add_edge(5, 11)
+    g.add_edge(6, 12)
+    g.add_edge(6, 13)
+    g.add_edge(7, 14)
+    g.add_edge(7, 15)
+
+    start_node = 1
+    end_node = 9
+    shortest_path = g.iterative_dfs(start_node, end_node)
+    if shortest_path:
+        print(f"Shortest path from {start_node} to {end_node}: {shortest_path}")
+    else:
+        print(f"No path found from {start_node} to {end_node}")
+</pre>
+
+<h2>Practical C: DFS Traversal</h2>
+<button onclick="copyCode('code3')">📋 Copy Code</button>
+<pre id="code3">
+from collections import defaultdict
+
+class Graph:
+    def __init__(self):
+        self.graph = defaultdict(list)
+
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+
+    def DFSUtil(self, v, visited):
+        visited.add(v)
+        print(v, end=' ')
+        for neighbour in self.graph[v]:
+            if neighbour not in visited:
+                self.DFSUtil(neighbour, visited)
+
+    def DFS(self, v):
+        visited = set()
+        self.DFSUtil(v, visited)
+
+if __name__ == "__main__":
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(0, 2)
+    g.addEdge(1, 2)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
+    g.addEdge(3, 3)
+
+    print("Following is Depth First Traversal (starting from vertex 2)")
+    g.DFS(2)
+</pre>
+
+</body>
+</html>
