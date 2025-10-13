@@ -1,90 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Practicals – Copyable Code</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f7fa;
-        margin: 20px;
-        color: #222;
-    }
-    h2 {
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-    }
-    pre {
-        background-color: #1e1e1e;
-        color: #dcdcdc;
-        padding: 15px;
-        border-radius: 10px;
-        overflow-x: auto;
-        font-family: Consolas, monospace;
-        line-height: 1.4;
-    }
-    button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-</style>
-<script>
-function copyCode(id) {
-    const code = document.getElementById(id).innerText;
-    navigator.clipboard.writeText(code).then(() => {
-        alert("✅ Code copied to clipboard!");
-    });
-}
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Practicals</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        h1, h2 {
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+            color: #343a40;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .code-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        pre {
+            background-color: #2d333b;
+            color: #c9d1d9;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+        }
+        code {
+            display: block;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+        }
+        .code-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Practical A: BFS Traversal</h2>
-<button onclick="copyCode('code1')">📋 Copy Code</button>
-<pre id="code1">
-from collections import deque
+    <div class="container">
+        <h1>🐍 Python AI Practicals</h1>
+
+        <h2>Practical 1.1: Breadth-First Search (BFS)</h2>
+        <div class="code-container">
+            <pre id="code1"><code class="language-python">from collections import deque
 
 def bfs(graph, start):
+    """Performs Breadth-First Search on a graph."""
     visited = set()
     queue = deque([start])
+    visited.add(start)
+
     while queue:
         vertex = queue.popleft()
-        if vertex not in visited:
-            visited.add(vertex)
-            print(vertex)
-            neighbors = graph[vertex]
-            for neighbor in neighbors:
-                if neighbor not in visited:
-                    queue.append(neighbor)
+        print(vertex, end=" ")
+
+        for neighbor in graph.get(vertex, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
 
 graph = {
-    'A': ['B', 'C'],
-    'B': ['A', 'D', 'E'],
-    'C': ['A', 'F'],
-    'D': ['B'],
-    'E': ['B', 'F'],
-    'F': ['C', 'E']
+    'A': ['B', 'C'], 'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'], 'D': ['B'],
+    'E': ['B', 'F'], 'F': ['C', 'E']
 }
 
+print("BFS traversal starting from vertex 'A':")
 start_vertex = 'A'
 bfs(graph, start_vertex)
-</pre>
+</code></pre>
+            <button class="copy-btn" data-target="code1">Copy Code</button>
+        </div>
 
-<h2>Practical B: Iterative DFS Shortest Path</h2>
-<button onclick="copyCode('code2')">📋 Copy Code</button>
-<pre id="code2">
-from collections import defaultdict
+        <h2>Practical 1.2: Iterative Deepening DFS (IDFS)</h2>
+        <div class="code-container">
+            <pre id="code2"><code class="language-python">from collections import defaultdict
 
 class Graph:
     def __init__(self):
@@ -97,79 +121,511 @@ class Graph:
     def iterative_dfs(self, start, end):
         if start == end:
             return [start]
+        
         visited = set()
         stack = [(start, [start])]
+
         while stack:
             current_vertex, path = stack.pop()
-            visited.add(current_vertex)
-            for neighbor in self.graph[current_vertex]:
-                if neighbor not in visited:
-                    if neighbor == end:
-                        return path + [neighbor]
-                    stack.append((neighbor, path + [neighbor]))
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                for neighbor in self.graph.get(current_vertex, []):
+                    if neighbor not in visited:
+                        if neighbor == end:
+                            return path + [neighbor]
+                        stack.append((neighbor, path + [neighbor]))
         return None
 
 if __name__ == "__main__":
     g = Graph()
-    g.add_edge(1, 2)
-    g.add_edge(1, 3)
-    g.add_edge(2, 4)
-    g.add_edge(2, 5)
-    g.add_edge(3, 6)
-    g.add_edge(3, 7)
-    g.add_edge(4, 8)
-    g.add_edge(4, 9)
-    g.add_edge(5, 10)
-    g.add_edge(5, 11)
-    g.add_edge(6, 12)
-    g.add_edge(6, 13)
-    g.add_edge(7, 14)
-    g.add_edge(7, 15)
-
+    g.add_edge(1, 2); g.add_edge(1, 3); g.add_edge(2, 4)
+    g.add_edge(2, 5); g.add_edge(3, 6); g.add_edge(3, 7)
+    g.add_edge(4, 8); g.add_edge(4, 9); g.add_edge(5, 10)
+    
     start_node = 1
     end_node = 9
-    shortest_path = g.iterative_dfs(start_node, end_node)
-    if shortest_path:
-        print(f"Shortest path from {start_node} to {end_node}: {shortest_path}")
+    path = g.iterative_dfs(start_node, end_node)
+    
+    if path:
+        print(f"Path from {start_node} to {end_node}: {path}")
     else:
         print(f"No path found from {start_node} to {end_node}")
-</pre>
+</code></pre>
+            <button class="copy-btn" data-target="code2">Copy Code</button>
+        </div>
 
-<h2>Practical C: DFS Traversal</h2>
-<button onclick="copyCode('code3')">📋 Copy Code</button>
-<pre id="code3">
-from collections import defaultdict
+        <h2>Practical 2.1: A* Search Algorithm</h2>
+        <div class="code-container">
+            <pre id="code3"><code class="language-python">def astar_algo(start_node, stop_node):
+    open_set = {start_node}
+    closed_set = set()
+    g = {start_node: 0}
+    parents = {start_node: start_node}
 
-class Graph:
-    def __init__(self):
-        self.graph = defaultdict(list)
+    while len(open_set) > 0:
+        n = None
+        for v in open_set:
+            if n is None or g[v] + heuristic(v) < g[n] + heuristic(n):
+                n = v
+        
+        if n is None:
+            print("Path does not exist!")
+            return None
 
-    def addEdge(self, u, v):
-        self.graph[u].append(v)
+        if n == stop_node:
+            path = []
+            while parents[n] != n:
+                path.append(n)
+                n = parents[n]
+            path.append(start_node)
+            path.reverse()
+            print(f"Path found: {path}")
+            return path
 
-    def DFSUtil(self, v, visited):
-        visited.add(v)
-        print(v, end=' ')
-        for neighbour in self.graph[v]:
-            if neighbour not in visited:
-                self.DFSUtil(neighbour, visited)
+        for (m, weight) in get_neighbors_astar(n):
+            if m not in open_set and m not in closed_set:
+                open_set.add(m)
+                parents[m] = n
+                g[m] = g[n] + weight
+            else:
+                if g.get(m, float('inf')) > g[n] + weight:
+                    g[m] = g[n] + weight
+                    parents[m] = n
+                    if m in closed_set:
+                        closed_set.remove(m)
+                        open_set.add(m)
+        
+        open_set.remove(n)
+        closed_set.add(n)
 
-    def DFS(self, v):
-        visited = set()
-        self.DFSUtil(v, visited)
+    print("Path does not exist!")
+    return None
 
-if __name__ == "__main__":
-    g = Graph()
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(2, 3)
-    g.addEdge(3, 3)
+def get_neighbors_astar(v):
+    return Graph_nodes.get(v, [])
 
-    print("Following is Depth First Traversal (starting from vertex 2)")
-    g.DFS(2)
-</pre>
+def heuristic(n):
+    H_dist = {'A': 11, 'B': 6, 'C': 99, 'D': 1, 'E': 7, 'G': 0}
+    return H_dist.get(n, float('inf'))
+
+Graph_nodes = {
+    'A': [('B', 2), ('E', 3)], 'B': [('C', 1), ('G', 9)],
+    'E': [('D', 6)], 'D': [('G', 1)]
+}
+
+astar_algo('A', 'G')
+</code></pre>
+            <button class="copy-btn" data-target="code3">Copy Code</button>
+        </div>
+
+        <h2>Practical 2.2: Recursive Best-First Search</h2>
+        <div class="code-container">
+            <pre id="code4"><code class="language-python">class Node:
+    """A node class for search problems"""
+    def __init__(self, state, parent=None, f=float('inf')):
+        self.state = state
+        self.parent = parent
+        self.f = f # Evaluation function value
+
+def get_neighbors_rbfs(state):
+    """Defines the graph for the RBFS algorithm."""
+    successors = {
+        1: [(2, 3), (3, 5)], 2: [(1, 3), (4, 7)],
+        3: [(1, 5), (5, 2)], 4: [(2, 7), (6, 4)],
+        5: [(3, 2), (7, 6)], 6: [(4, 4), (8, 8)],
+        7: [(5, 6), (8, 5)], 8: [(6, 8), (7, 5)],
+    }
+    return successors.get(state, [])
+
+def rbfs(start, goal):
+    """An iterative implementation of a Best-First Search variant."""
+    f_limit = float('inf')
+    stack = [(Node(start, f=0), f_limit)]
+    visited = set()
+
+    while stack:
+        node, f_limit = stack.pop()
+        
+        if node.state in visited:
+            continue
+        visited.add(node.state)
+
+        if node.state == goal:
+            path = []
+            cost = node.f
+            while node is not None:
+                path.append(node.state)
+                node = node.parent
+            return list(reversed(path)), cost
+
+        successors = []
+        for neighbor, cost in get_neighbors_rbfs(node.state):
+            if neighbor not in visited:
+                child = Node(neighbor, parent=node)
+                child.f = max(child.parent.f, cost) 
+                successors.append(child)
+
+        if not successors:
+            continue
+
+        successors.sort(key=lambda x: x.f)
+        best = successors[0]
+
+        if best.f > f_limit:
+            continue
+            
+        alternative = successors[1].f if len(successors) > 1 else float('inf')
+        stack.append((best, min(f_limit, alternative)))
+
+    return None, float('inf')
+
+if __name__ == '__main__':
+    start_state = 1
+    goal_state = 8
+    path, cost = rbfs(start_state, goal_state)
+
+    if path is not None:
+        print(f"Path from {start_state} to {goal_state}:")
+        print(" -> ".join(map(str, path)))
+        print(f"Total cost: {cost}")
+    else:
+        print("No path found.")
+</code></pre>
+            <button class="copy-btn" data-target="code4">Copy Code</button>
+        </div>
+
+        <h2>Practical 3: Decision Tree Learning</h2>
+        <div class="code-container">
+            <pre id="code5"><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset from sklearn
+iris = load_iris()
+X = iris.data
+y = iris.target
+feature_names = iris.feature_names
+class_names = iris.target_names
+
+# Split dataset into training and testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create Decision Tree classifier
+clf = DecisionTreeClassifier()
+
+# Train the model
+clf.fit(X_train, y_train)
+
+# Make predictions
+y_pred = clf.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Visualize the decision tree
+plt.figure(figsize=(12, 8))
+plot_tree(clf, filled=True, feature_names=feature_names, class_names=class_names, rounded=True)
+plt.title("Decision Tree Visualization for Iris Dataset")
+plt.show()
+</code></pre>
+            <button class="copy-btn" data-target="code5">Copy Code</button>
+        </div>
+        
+        <h2>Practical 5: Support Vector Machine (SVM)</h2>
+        <div class="code-container">
+            <pre id="code6"><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset from sklearn
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split dataset into training and testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create an SVM classifier (linear kernel)
+svm_classifier = SVC(kernel='linear')
+
+# Train the model
+svm_classifier.fit(X_train, y_train)
+
+# Make predictions
+y_pred = svm_classifier.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+</code></pre>
+            <button class="copy-btn" data-target="code6">Copy Code</button>
+        </div>
+
+        <h2>Practical 6: AdaBoost Classifier</h2>
+        <div class="code-container">
+            <pre id="code7"><code class="language-python">from sklearn.ensemble import AdaBoostClassifier
+from sklearn.svm import SVC
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+data = load_iris()
+X = data.data
+y = data.target
+
+# Split the dataset into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create base estimator
+svc = SVC(probability=True, kernel='linear')
+
+# Create AdaBoost classifier
+abc = AdaBoostClassifier(estimator=svc, n_estimators=50, learning_rate=1)
+
+# Train the model
+model = abc.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Print accuracy
+print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+</code></pre>
+            <button class="copy-btn" data-target="code7">Copy Code</button>
+        </div>
+
+        <h2>Practical 7.1: Naïve Bayes Classifier</h2>
+        <div class="code-container">
+            <pre id="code8"><code class="language-python">from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Naïve Bayes classifier (Gaussian Naïve Bayes for continuous features)
+clf = GaussianNB()
+
+# Train the classifier on the training data
+clf.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = clf.predict(X_test)
+
+# Calculate and print the accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+</code></pre>
+            <button class="copy-btn" data-target="code8">Copy Code</button>
+        </div>
+
+        <h2>Practical 7.2: Naïve Bayes with CSV</h2>
+        <div class="code-container">
+            <pre id="code9"><code class="language-python">import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+# Note: This code requires a CSV file named 'argfrc_dataset.csv'
+# in the same directory to run successfully.
+
+try:
+    # Load the football dataset from CSV
+    dataset = pd.read_csv('argfrc_dataset.csv')
+
+    # Separate features (X) and labels (y)
+    X = dataset[['Argentina', 'France']].values
+    y = dataset['Result'].values
+
+    # Split the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Create a Naïve Bayes classifier
+    clf = GaussianNB()
+
+    # Train the classifier on the training data
+    clf.fit(X_train, y_train)
+
+    # Make predictions on the test data
+    y_pred = clf.predict(X_test)
+
+    # Calculate and print the accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy:.2f}")
+
+except FileNotFoundError:
+    print("Error: 'argfrc_dataset.csv' not found.")
+    print("Please make sure the CSV file is in the same folder as this script.")
+
+</code></pre>
+            <button class="copy-btn" data-target="code9">Copy Code</button>
+        </div>
+
+        <h2>Practical 8: K-Nearest Neighbors (KNN)</h2>
+        <div class="code-container">
+            <pre id="code10"><code class="language-python">from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the Iris dataset
+iris_data = load_iris()
+X = iris_data.data
+y = iris_data.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the range of k values (number of neighbors)
+neighbors = np.arange(1, 10)
+
+# Initialize arrays to store accuracies
+train_accuracy = np.empty(len(neighbors))
+test_accuracy = np.empty(len(neighbors))
+
+# Loop over different k values
+for i, k in enumerate(neighbors):
+    # Create k-NN classifier
+    knn = KNeighborsClassifier(n_neighbors=k)
+    
+    # Fit the classifier on the training data
+    knn.fit(X_train, y_train)
+    
+    # Compute accuracy on the training set
+    train_accuracy[i] = knn.score(X_train, y_train)
+    
+    # Compute accuracy on the testing set
+    test_accuracy[i] = knn.score(X_test, y_test)
+
+# Plot training and testing accuracy vs k
+plt.figure(figsize=(10, 6))
+plt.plot(neighbors, train_accuracy, label='Training accuracy', marker='o')
+plt.plot(neighbors, test_accuracy, label='Testing accuracy', marker='s')
+plt.xlabel('Number of Neighbors (k)')
+plt.ylabel('Accuracy')
+plt.title('k-NN: Accuracy vs. Number of Neighbors')
+plt.legend()
+plt.grid(True)
+plt.show()
+</code></pre>
+            <button class="copy-btn" data-target="code10">Copy Code</button>
+        </div>
+
+        <h2>Practical 9: Apriori Algorithm</h2>
+        <div class="code-container">
+            <pre id="code11"><code class="language-python">import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+from mlxtend.preprocessing import TransactionEncoder
+import matplotlib.pyplot as plt
+
+# Note: This code requires the 'mlxtend' library (pip install mlxtend)
+# and a CSV file named 'Groceries_dataset.csv' to run successfully.
+
+try:
+    # Load and preprocess the dataset
+    df = pd.read_csv("Groceries_dataset.csv")
+    
+    # Group items by transaction
+    basket = df.groupby(['Member_number', 'Date'])['itemDescription'].apply(list).reset_index(drop=True)
+    transactions = basket.tolist()
+
+    # Encode the transactions into a one-hot format
+    te = TransactionEncoder()
+    te_array = te.fit(transactions).transform(transactions)
+    df_encoded = pd.DataFrame(te_array, columns=te.columns_)
+
+    # Apply the Apriori algorithm to find frequent itemsets
+    frequent_itemsets = apriori(df_encoded, min_support=0.01, use_colnames=True)
+    print("--- Frequent Itemsets ---")
+    print(frequent_itemsets.head())
+    print(f"\nTotal Frequent Itemsets Found: {frequent_itemsets.shape[0]}")
+
+    # Generate association rules
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.1)
+    
+    # Filter rules for clarity if needed
+    rules = rules[rules['lift'] >= 1]
+    print("\n--- Association Rules ---")
+    print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']].head())
+    print(f"\nTotal Association Rules Found: {rules.shape[0]}")
+
+    # Visualize the top 10 most purchased items
+    plt.figure(figsize=(12, 7))
+    top_items = df['itemDescription'].value_counts().head(10)
+    top_items.plot(kind='bar', title='Top 10 Most Purchased Items')
+    plt.xlabel("Items")
+    plt.ylabel("Number of Purchases")
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.show()
+
+except FileNotFoundError:
+    print("Error: 'Groceries_dataset.csv' not found.")
+    print("Please make sure the dataset file is in the same folder as this script.")
+except ImportError:
+    print("Error: 'mlxtend' library not found.")
+    print("Please install it using: pip install mlxtend")
+
+</code></pre>
+            <button class="copy-btn" data-target="code11">Copy Code</button>
+        </div>
+
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const allCopyButtons = document.querySelectorAll('.copy-btn');
+
+            allCopyButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const btn = event.target;
+                    const targetId = btn.dataset.target;
+                    const codeBlock = document.getElementById(targetId);
+                    
+                    if (codeBlock) {
+                        const codeText = codeBlock.innerText || codeBlock.textContent;
+
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            const originalText = btn.innerText;
+                            btn.innerText = '✅ Copied!';
+                            btn.style.backgroundColor = '#28a745';
+
+                            setTimeout(() => {
+                                btn.innerText = originalText;
+                                btn.style.backgroundColor = '#007bff';
+                            }, 2000);
+
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                            btn.innerText = '⚠️ Error';
+                            btn.style.backgroundColor = '#dc3545';
+                            
+                            setTimeout(() => {
+                                btn.innerText = 'Copy Code';
+                                btn.style.backgroundColor = '#007bff';
+                            }, 2000);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
