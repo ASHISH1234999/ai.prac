@@ -3,1001 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Analyzer Pro</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Cyber Forensics Practicals</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #1c1e21;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 100%;
-            max-width: 1200px;
-            min-height: 600px;
-            transition: all 0.3s ease;
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
         }
-
-        /* Auth Pages */
-        .auth-container {
-            max-width: 400px;
-            padding: 40px;
+        h1 {
             text-align: center;
-        }
-
-        .auth-header {
+            color: #1877f2;
+            font-size: 2.5em;
             margin-bottom: 30px;
         }
-
-        .auth-header h1 {
+        .practical-container {
+            background-color: #ffffff;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #1c1e21;
+            border-bottom: 2px solid #e7f3ff;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            font-size: 1.3em;
             color: #333;
-            font-size: 2.5rem;
+            margin-top: 20px;
+        }
+        p, li {
+            font-size: 1em;
+            color: #4b4f56;
+        }
+        ol, ul {
+            padding-left: 20px;
+        }
+        li {
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
-        .auth-header p {
-            color: #666;
-            font-size: 1.1rem;
+        strong {
+            color: #050505;
         }
-        .auth-logo {
-    width: 80px;          /* adjust size */
-    height: 80px;
-    object-fit: contain;
-    margin: 0 auto 15px;  /* center and add space below */
-    display: block;
-}
-
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .auth-switch {
-            margin-top: 25px;
-            color: #666;
-        }
-
-        .auth-switch a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .auth-switch a:hover {
-            color: #764ba2;
-        }
-
-        /* Dashboard */
-        .dashboard {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-}
-
-        .dashboard.active {
-            display: flex;
-        }
-
-        .dashboard-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .dashboard-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .dashboard-content {
-            flex: 1;
-            display: flex;
-            height: calc(100vh - 80px);
-        }
-
-        .sidebar {
-            width: 300px;
-            background: #f8f9fa;
-            border-right: 1px solid #e1e5e9;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .upload-section {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .upload-section h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.2rem;
-        }
-
-        .file-upload {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-upload input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .file-upload-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .file-upload:hover .file-upload-btn {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .file-info {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .data-preview {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .data-preview h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.2rem;
-        }
-
-        .preview-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        .preview-table th,
-        .preview-table td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #e1e5e9;
-        }
-
-        .preview-table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background: #f8f9fa;
-            overflow-y: auto;
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: relative;
-            height: 400px;
-            
-        }
-
-        .chart-container h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.3rem;
-            text-align: center;
-        }
-
-        .chart-canvas {
-            position: relative;
-            height: 600px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .controls {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .controls h3 {
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .control-group {
-            margin-bottom: 15px;
-        }
-
-        .control-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .control-group select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #e1e5e9;
-            border-radius: 6px;
-            background: white;
-            font-size: 14px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 10px;
-            border-radius: 6px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-
-        .success-message {
-            background: #efe;
-            color: #3c3;
-            padding: 10px;
-            border-radius: 6px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-
-        .no-data {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        code {
+            background-color: #e9ebee;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
         }
     </style>
 </head>
 <body>
-    <!-- Login Page -->
-    <div id="loginPage" class="container auth-container">
-        <div class="auth-header">
-            <h1>📊 DataPro</h1>
-            <p>Powerful data analysis at your fingertip</p>
-        </div>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="loginEmail">Email Address</label>
-                <input type="email" id="loginEmail" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" required placeholder="Enter your password">
-            </div>
-            <button type="submit" class="btn">Sign In</button>
-            <div class="auth-switch">
-                Don't have an account? <a id="showRegister">Create one</a>
-            </div>
-        </form>
-    </div>
 
-    <!-- Register Page -->
-    <div id="registerPage" class="container auth-container hidden">
-        <div class="auth-header">
-            <h1>📊 DataPro</h1>
-            <p>Join thousands of data analysts</p>
-        </div>
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="registerName">Full Name</label>
-                <input type="text" id="registerName" required placeholder="Enter your full name">
-            </div>
-            <div class="form-group">
-                <label for="registerEmail">Email Address</label>
-                <input type="email" id="registerEmail" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="registerPassword">Password</label>
-                <input type="password" id="registerPassword" required placeholder="Create a password">
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" required placeholder="Confirm your password">
-            </div>
-            <button type="submit" class="btn">Create Account</button>
-            <div class="auth-switch">
-                Already have an account? <a id="showLogin">Sign in</a>
-            </div>
-        </form>
-    </div>
+    <div class="main-container">
+        <h1>Cyber Forensics Practicals</h1>
 
-    <!-- Dashboard -->
-    <div id="dashboard" class="dashboard">
-        <header class="dashboard-header">
-            <h1>📊 Data Analysis Dashboard</h1>
-            <div class="user-info">
-                <span id="welcomeUser">Welcome back!</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="practical-container">
+            <h2>Practical 1: Creating a Forensic Image</h2>
+            <div id="practical1-content">
+                <h3>Aim: Creating a Forensic Image using FTK Imager</h3>
+                <ul>
+                    <li>Creating a Forensic Image</li>
+                    <li>Checking the Integrity of Data</li>
+                    <li>Analyzing a Forensic Image</li>
+                </ul>
+                <hr>
+                <h3>Part A: Creating a Forensic Image</h3>
+                <p>In this practical, we will use FTK Imager to create images of the evidence.</p>
+                <ol>
+                    <li>Click <strong>File</strong>, and then <strong>Create Disk Image</strong>, or click the corresponding button on the toolbar.</li>
+                    <li>Select the source evidence type you want to image and click <strong>Next</strong>.</li>
+                    <li>Select the source evidence file with its path.</li>
+                    <li>Click on <strong>Add</strong> to set the image destination.</li>
+                    <li>In the <strong>Image Destination Folder</strong> field, type the path where you want to save the image file, or click <strong>Browse</strong> to find the location.</li>
+                    <li>In the <strong>Image Filename</strong> field, specify a name for the image file (without a file extension). After setting the path, click <strong>Finish</strong>.</li>
+                    <li>Click <strong>Start</strong> to begin the image creation process.</li>
+                    <li>After the image is created, click <strong>Image Summary</strong> to view detailed information, including MD5 and SHA1 checksums.</li>
+                </ol>
+                <h3>Part B: Analyzing a Forensic Image</h3>
+                <ol>
+                    <li>Click on <strong>Add Evidence Item</strong> to add evidence from a disk, image file, or folder.</li>
+                    <li>Select the source evidence type as <strong>Image File</strong>.</li>
+                    <li>Browse to and open the evidence image file you created.</li>
+                    <li>Select <strong>Evidence Tree</strong> from the navigation pane to browse and analyze the contents of the image file.</li>
+                </ol>
+                <h3>Part C: Imaging a Physical Drive (e.g., Pen Drive)</h3>
+                <ol>
+                    <li>Select the source evidence type. Choose <strong>Physical Drive</strong> and proceed.</li>
+                    <li>Select the correct physical drive from the list (e.g., your pen drive) and click <strong>Finish</strong>.</li>
+                    <li>Add an image destination. For the format, select <strong>raw (dd)</strong>.</li>
+                    <li>Fill in the evidence item information (case number, evidence number, etc.).</li>
+                    <li>Create a destination folder on a different drive to save the image. Paste this location into the destination path field and click <strong>Finish</strong>.</li>
+                    <li>Click <strong>Start</strong> and wait for the imaging process to complete.</li>
+                    <li>Upon completion, FTK Imager will display the computed MD5 and SHA1 hash values. You can verify these against the source to ensure the integrity of the image.</li>
+                    <li>You can view and save the <strong>Image Summary</strong> for your records.</li>
+                </ol>
             </div>
-        </header>
+        </div>
+
+        <div class="practical-container">
+            <h2>Practical 2: Data Acquisition</h2>
+            <div id="practical2-content">
+                <h3>Aim: Perform data acquisition using a USB Write Blocker and Encase Imager.</h3>
+                <p>This practical demonstrates how to enable write protection for USB drives via the Windows Registry, effectively turning the system into a software-based write blocker.</p>
+                <hr>
+                <h3>Enabling USB Write Protection (Registry Method)</h3>
+                <ol>
+                    <li>Open the Run dialog box (Windows Key + R), type <code>regedit</code>, and press Enter to open the Registry Editor.</li>
+                    <li>In the Registry Editor, navigate to the following key in the left panel: <br><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</code></li>
+                    <li>Right-click on the <strong>Control</strong> key, select <strong>New</strong>, and then click on <strong>Key</strong>.</li>
+                    <li>Name the new key <code>StorageDevicePolicies</code> and press Enter.</li>
+                    <li>Select the newly created <strong>StorageDevicePolicies</strong> key in the left panel.</li>
+                    <li>Right-click on an empty space in the right panel, select <strong>New</strong>, and then choose <strong>DWORD (32-bit) Value</strong>.</li>
+                    <li>Name this new DWORD value <code>WriteProtect</code>.</li>
+                    <li>Double-click on the new <strong>WriteProtect</strong> value. Change its 'Value data' from <strong>0</strong> to <strong>1</strong> and click OK.</li>
+                    <li>Restart your computer for the changes to take effect.</li>
+                    <li>After restarting, any USB drive connected to the computer will be write-protected. You can read files from it, but you cannot modify, delete, or add new files to the drive.</li>
+                </ol>
+                <h3>Acquisition using Encase Imager (General Steps)</h3>
+                <p>After ensuring the source media is write-protected, you can proceed with imaging.</p>
+                <ol>
+                    <li>Launch your forensic imaging tool (e.g., Encase Imager).</li>
+                    <li>From the main interface, choose to create a new evidence file or start a new case.</li>
+                    <li>Select the source device you wish to acquire. This will be the write-protected USB drive.</li>
+                    <li>In the 'Create Image' or similar dialog box, click <strong>Add</strong> to specify the evidence details.</li>
+                    <li>Fill in the case information, such as Case Number, Evidence Number, Examiner Name, and a unique description of the evidence.</li>
+                    <li>Specify the destination path where the forensic image will be saved. Ensure the destination has enough free space.</li>
+                    <li>Select the image format (e.g., E01, Ex01).</li>
+                    <li>Begin the acquisition process. The tool will create a bit-for-bit copy of the source drive and compute hash values (MD5, SHA-1) to verify the integrity of the created image.</li>
+                </ol>
+            </div>
+        </div>
         
-        <div class="dashboard-content">
-            <aside class="sidebar">
-                <div class="upload-section">
-                    <h3>📁 Upload Data</h3>
-                    <div class="file-upload">
-                        <input type="file" id="dataFile" accept=".csv,.xlsx,.xls" onchange="handleFileUpload(event)">
-                        <label for="dataFile" class="file-upload-btn">
-                            Choose CSV or Excel File
-                        </label>
-                    </div>
-                    <div id="fileInfo" class="file-info"></div>
-                </div>
+        <div class="practical-container">
+            <h2>Practical 4: Capturing and Analyzing Network Packets</h2>
+            <div id="practical4-content">
+                <h3>Aim: Capturing and analyzing network packets using Wireshark (Fundamentals)</h3>
+                <ul>
+                    <li>Identify the live network</li>
+                    <li>Capture packets</li>
+                    <li>Analyze the captured packets</li>
+                </ul>
+                <hr>
+                <h3>Capturing Packets</h3>
+                <ol>
+                    <li>To start capturing traffic, click on your network interface (e.g., Wi-Fi, Ethernet).</li>
+                    <li>As soon as you click the interface, Wireshark will begin capturing packets in real time.</li>
+                    <li><strong>Promiscuous Mode:</strong> This mode allows your network card to capture all packets on the network segment, not just those addressed to your machine. It is enabled by default in Wireshark.</li>
+                    <li>To verify, go to <strong>Capture > Options</strong>. Ensure the "Enable promiscuous mode on all interfaces" checkbox is checked at the bottom of the window.</li>
+                </ol>
                 
-                <div class="controls">
-                    <h3>⚙️ Chart Controls</h3>
-                    <div class="control-group">
-                        <label for="chartType">Chart Type</label>
-          <div class="controls">
-    <h3>⚙️ Chart Controls</h3>
-    <div class="control-group">
-        <label for="chartType">Chart Type</label>
-        <select id="chartType">
-            <optgroup label="Basic Charts">
-                <option value="bar">Bar Chart</option>
-                <option value="line">Line Chart</option>
-                <option value="area">Area Chart</option>
-            </optgroup>
-            <optgroup label="Category Charts">
-                <option value="pie">Pie Chart</option>
-                <option value="doughnut">Doughnut Chart</option>
-                <option value="polarArea">Polar Area Chart</option>
-                <option value="radar">Radar Chart</option>
-            </optgroup>
-            <optgroup label="Numeric Charts">
-                <option value="scatter">Scatter Plot</option>
-                <option value="bubble">Bubble Chart</option>
-            </optgroup>
-        </select>
-    </div>
-    <div class="control-group">
-        <label for="xAxis">X-Axis</label>
-        <select id="xAxis">
-            <option value="">Select column...</option>
-        </select>
-    </div>
-    <div class="control-group">
-        <label for="yAxis">Y-Axis</label>
-        <select id="yAxis">
-            <option value="">Select column...</option>
-        </select>
-    </div>
-
-    <!-- 🎯 New Generate Button -->
-    <div class="control-group">
-        <button type="button" onclick="updateChart()" 
-            style="width:100%; padding:12px; background:linear-gradient(45deg,#667eea,#764ba2); color:white; font-weight:600; border:none; border-radius:8px; cursor:pointer;">
-            📊 Generate Chart
-        </button>
-    </div>
-</div>
-
-                    </div>
-                </div>
-            </aside>
-            
-            <main class="main-content">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalRows">0</div>
-                        <div class="stat-label">Total Rows</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalColumns">0</div>
-                        <div class="stat-label">Total Columns</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="numericColumns">0</div>
-                        <div class="stat-label">Numeric Columns</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="textColumns">0</div>
-                        <div class="stat-label">Text Columns</div>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <h3>📈 Data Visualization</h3>
-                    <div class="chart-canvas">
-                        <canvas id="mainChart"></canvas>
-                        <div id="noChartMessage" class="no-data">
-                            Upload data and select columns to create charts
-                        </div>
-                                         <button onclick="saveChartAsPDF()" 
-    style="margin-top: 100px; padding: 10px 20px; border: none; border-radius: 8px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; font-weight: 600; cursor: pointer;">
-    📄 Save as PDF
-</button>
-                <div class="data-preview">
-                    <h3>👀 Data Preview</h3>
-                    <div id="dataPreview" class="no-data">
-                        Upload a file to see preview
-                    </div>
-                </div>
-
-                    </div>
-                </div>
-            </main>
+                <h3>Analyze the Captured Packets</h3>
+                <p><strong>Color Coding:</strong> Wireshark uses colors to help you identify different types of traffic at a glance.</p>
+                <ul>
+                    <li>Light Purple: TCP traffic</li>
+                    <li>Light Blue: UDP traffic</li>
+                    <li>Black: Packets with errors</li>
+                </ul>
+                <p>You can create custom coloring rules by going to <strong>View > Coloring Rules</strong>.</p>
+                <hr>
+                <h3>Using Display Filters</h3>
+                <p>Apply filters in the bar at the top of the window to narrow down the captured data.</p>
+                <ol>
+                    <li><strong>Display packets for a specific IP address (source or destination):</strong><br>
+                        <code>ip.addr == 192.0.2.1</code></li>
+                    <li><strong>Display packets from a specific source IP address:</strong><br>
+                        <code>ip.src == 192.168.10.28</code></li>
+                    <li><strong>Display packets going to a specific destination IP address:</strong><br>
+                        <code>ip.dst == 192.168.10.28</code></li>
+                    <li><strong>Display packets using the HTTP protocol:</strong><br>
+                        <code>http</code></li>
+                    <li><strong>Display only HTTP request packets:</strong><br>
+                        <code>http.request</code></li>
+                    <li><strong>Display packets using the TCP protocol:</strong><br>
+                        <code>tcp</code></li>
+                    <li><strong>Display packets with an HTTP success code (OK):</strong><br>
+                        <code>http.response.code == 200</code></li>
+                    <li><strong>Display packets on either TCP port 80 or UDP port 443:</strong><br>
+                        <code>tcp.port == 80 || udp.port == 443</code></li>
+                    <li><strong>Display TCP packets containing a specific keyword (e.g., "facebook"):</strong><br>
+                        <code>tcp contains facebook</code></li>
+                </ol>
+                <h3>Further Analysis</h3>
+                <ol>
+                    <li><strong>Find Web Server Name:</strong> The web server name is often in the HTTP response header. Apply the filter <code>http.response</code> to see all HTTP response packets.</li>
+                    <li><strong>Apply as Column:</strong> To easily see all server names, find a packet, expand the HTTP protocol details in the packet details pane, right-click on the "Server" field, and select "Apply as Column".</li>
+                    <li><strong>View Endpoints:</strong> To see a summary of all connections, go to <strong>Statistics > Endpoints</strong>. This will show all IP addresses that communicated during the capture.</li>
+                </ol>
+                <h3>Conclusion</h3>
+                <p>We have successfully analyzed the packets provided and solved the questions using Wireshark.</p>
+            </div>
         </div>
-    </div>
 
-    <script>
-        // Global variables
-        let currentData = null;
-        let currentChart = null;
-        let users = JSON.parse(localStorage.getItem('datapro_users') || '{}');
-        let currentUser = null;
+        <div class="practical-container">
+            <h2>Practical 5: Using Sysinternals Tools for Network Tracking and Process Monitoring</h2>
+            <div id="practical5-content">
+                <h3>Aim:</h3>
+                <ul>
+                    <li>Check Sysinternals tools</li>
+                    <li>Monitor Live Processes</li>
+                    <li>Capture RAM</li>
+                    <li>Capture TCP/UDP packets</li>
+                    <li>Monitor Hard Disk</li>
+                    <li>Monitor Virtual Memory</li>
+                    <li>Monitor Cache Memory</li>
+                </ul>
+                <hr>
+                <h3>Check Sysinternals Tools</h3>
+                <p>Windows Sysinternals tools are utilities to manage, diagnose, troubleshoot, and monitor a Microsoft Windows environment. First, download the suite from the official Microsoft website if not already installed.</p>
+                <p>The tools fall into several categories:</p>
+                <ol>
+                    <li>File and Disk Utilities</li>
+                    <li>Networking Utilities</li>
+                    <li>Process Utilities</li>
+                    <li>Security Utilities</li>
+                    <li>System Information Utilities</li>
+                    <li>Miscellaneous Utilities</li>
+                </ol>
+                <hr>
+                <h3>1. Monitor Live Processes (Tool: Process Monitor - ProcMon)</h3>
+                <p><code>ProcMon</code> is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity.</p>
+                <p><strong>Features to use:</strong> Filter, Process Tree, Process Activity Summary, Count Occurrences.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>procmon.exe</code>.</li>
+                    <li>Grant administrative permissions if prompted.</li>
+                    <li>The capture starts immediately. You can use the Filter menu (Ctrl+L) to narrow down the results to a specific process name, PID, etc.</li>
+                    <li>Click Apply and OK to see the filtered processes.</li>
+                </ol>
 
-        // Authentication functions
-        function showLogin() {
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('registerPage').classList.add('hidden');
-        }
+                <h3>2. Capture RAM (Tool: RAMMap)</h3>
+                <p><code>RAMMap</code> is an advanced physical memory usage analysis utility.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>RAMMap.exe</code>.</li>
+                    <li>Allow the permissions to view a detailed, color-coded map of how Windows is assigning physical memory.</li>
+                </ol>
+                
+                <h3>3. Capture TCP/UDP packets (Tool: TCPView)</h3>
+                <p><code>TCPView</code> shows detailed listings of all TCP and UDP endpoints on your system, including local/remote addresses and connection states.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>TCPView.exe</code>.</li>
+                    <li>The program will immediately enumerate and display all active TCP and UDP connections.</li>
+                </ol>
 
-        function showRegister() {
-            document.getElementById('registerPage').classList.remove('hidden');
-            document.getElementById('loginPage').classList.add('hidden');
-        }
+                <h3>4. Monitor Hard Disk (Tool: DiskMon)</h3>
+                <p><code>DiskMon</code> logs and displays all hard disk activity on a Windows system.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>Diskmon.exe</code> as an Administrator.</li>
+                    <li>It will begin logging all disk I/O activity.</li>
+                </ol>
 
-        function showDashboard() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('registerPage').classList.add('hidden');
-            document.getElementById('dashboard').classList.add('active');
-        }
+                <h3>5. Monitor Virtual Memory (Tool: VMMap)</h3>
+                <p><code>VMMap</code> is a process virtual and physical memory analysis utility.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>VMMap.exe</code>.</li>
+                    <li>Select a running process to see a graphical breakdown of its committed virtual memory types and the physical memory assigned to them.</li>
+                </ol>
 
-        function logout() {
-            currentUser = null;
-            document.getElementById('dashboard').classList.remove('active');
-            document.getElementById('loginPage').classList.remove('hidden');
-            // Clear form data
-            document.getElementById('loginForm').reset();
-        }
+                <h3>6. Monitor Cache Memory (Tool: CacheSet)</h3>
+                <p><code>CacheSet</code> is an applet that allows you to manipulate the working-set parameters of the system file cache.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Run <code>CacheSet.exe</code>.</li>
+                    <li>Agree to the license terms.</li>
+                    <li>You can view the current cache size and adjust the minimum and maximum working set sizes, then click Apply.</li>
+                </ol>
+            </div>
+        </div>
 
-        // Event listeners for auth
-        document.getElementById('showRegister').onclick = showRegister;
-        document.getElementById('showLogin').onclick = showLogin;
+        <div class="practical-container">
+            <h2>Practical 6: Recovering and Inspecting Deleted Files</h2>
+            <div id="practical6-content">
+                <h3>Aim: Using Autopsy to find, recover, and inspect deleted files from a forensic image.</h3>
+                <ul>
+                    <li>Check for Deleted Files</li>
+                    <li>Recover the Deleted Files</li>
+                    <li>Analyze and Inspect the recovered files</li>
+                </ul>
+                <hr>
+                <h3>Procedure:</h3>
+                <p>In this practical, we will use Autopsy, a digital forensics platform, to analyze the forensic image created in Practical 1.</p>
+                <ol>
+                    <li><strong>Create a New Case:</strong> Open Autopsy and click on "New Case".</li>
+                    <li><strong>Case Information:</strong> Give the case a name (e.g., "Deleted File Recovery") and choose a base directory to save the case files. Click Next.</li>
+                    <li><strong>Optional Details:</strong> Fill in the case number and examiner details as needed. These can correspond to the details used when creating the image. Click Finish.</li>
+                    <li><strong>Select Data Source:</strong> The "Add Data Source" wizard will open. Select "Disk Image or VM File" and click Next.</li>
+                    <li><strong>Provide Path:</strong> Browse to and select the forensic image file (e.g., the `.dd` or `.E01` file from Practical 1). Click Next.</li>
+                    <li><strong>Configure Ingest Modules:</strong> Leave the default ingest modules selected. These modules will automatically process the image to find deleted files, emails, web history, and more. Click Next.</li>
+                    <li><strong>Start Analysis:</strong> Autopsy will show a summary. Click Finish to add the data source and begin the analysis. This may take some time depending on the size of the image.</li>
+                    <li><strong>Check for Deleted Files:</strong> Once the analysis is complete, navigate the tree on the left side. Expand "Views" > "File Types" and click on "Deleted Files". The main window will now list all the deleted files Autopsy was able to identify.</li>
+                    <li><strong>Recover/Extract Files:</strong> To recover a file, right-click on it in the list and select "Extract File(s)".</li>
+                    <li><strong>Set Destination:</strong> Choose a directory on your system where you want to save the recovered files.</li>
+                    <li><strong>Generate a Report:</strong> Go to the "Generate Report" button in the toolbar.</li>
+                    <li><strong>Select Report Format:</strong> Choose the desired report format (e.g., Excel, HTML). Click Next.</li>
+                    <li><strong>Select Results:</strong> Choose to include all results in the report and click Finish. Autopsy will generate a comprehensive report of its findings.</li>
+                    <li><strong>View Report:</strong> Once finished, you can close the dialog and open the generated report from the directory where your case is saved.</li>
+                </ol>
+            </div>
+        </div>
 
-        document.getElementById('loginForm').onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (users[email] && users[email].password === password) {
-                currentUser = users[email];
-                document.getElementById('welcomeUser').textContent = `Welcome, ${currentUser.name}!`;
-                showDashboard();
-            } else {
-                alert('Invalid email or password');
-            }
-        };
+        <div class="practical-container">
+            <h2>Practical 7: Steganography Detection</h2>
+            <div id="practical7-content">
+                <h3>Aim: Detect and extract hidden information or files within digital images using S-Tools.</h3>
+                <ul>
+                    <li>Hide a secret file within a host image.</li>
+                    <li>Detect and reveal the hidden content from the steganographic image.</li>
+                </ul>
+                <hr>
+                <h3>Part A: Hiding Data</h3>
+                <ol>
+                    <li><strong>Setup:</strong> Download and unzip the S-Tools utility. Run <code>S-tools.exe</code>.</li>
+                    <li><strong>Prepare Files:</strong> Have a host image file (e.g., <code>sample.bmp</code>) and a secret file you want to hide (e.g., a text file) ready.</li>
+                    <li><strong>Load Host Image:</strong> Drag the host image (<code>sample.bmp</code>) and drop it into the S-Tools window. An icon for the image will appear.</li>
+                    <li><strong>Hide Secret File:</strong> Drag your secret file (e.g., the text document) and drop it directly onto the image icon *inside* the S-Tools window.</li>
+                    <li><strong>Set Password:</strong> A dialog box will appear. Enter a password (e.g., "abc") and select an encryption algorithm (e.g., IDEA). Click OK.</li>
+                    <li><strong>Save Steganographic Image:</strong> S-Tools will process the files. A new image icon will appear in the window, representing the image with the hidden data. Right-click this new icon, select "Save As," and save it with a new name (e.g., <code>hidden_data.bmp</code>). This new file will look identical to the original but contains your secret file.</li>
+                </ol>
+                <hr>
+                <h3>Part B: Revealing Data</h3>
+                <ol>
+                    <li><strong>Open Image:</strong> Open a new S-Tools window (or clear the existing one). Drag the steganographic image (<code>hidden_data.bmp</code>) into the window.</li>
+                    <li><strong>Initiate Reveal:</strong> Right-click on the image icon inside S-Tools and select "Reveal".</li>
+                    <li><strong>Enter Password:</strong> A dialog box will prompt you for the password and encryption algorithm. Enter the same credentials you used to hide the file (e.g., password "abc", algorithm IDEA) and click OK.</li>
+                    <li><strong>View Revealed Archive:</strong> After processing, a "Revealed Archive" window will appear. This window lists the secret file(s) that were hidden inside the image.</li>
+                    <li><strong>Save Secret File:</strong> Right-click on the file in the "Revealed Archive" list and select "Save As" to extract and save the hidden file to your computer. You can now open it to view the secret information.</li>
+                </ol>
+            </div>
+        </div>
 
-        document.getElementById('registerForm').onsubmit = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-            
-            if (users[email]) {
-                alert('Email already registered');
-                return;
-            }
-            
-            users[email] = { name, email, password };
-            localStorage.setItem('datapro_users', JSON.stringify(users));
-            alert('Account created successfully! Please login.');
-            showLogin();
-            document.getElementById('registerForm').reset();
-        };
+        <div class="practical-container">
+            <h2>Practical 8: Acquisition of Cell Phones and Mobile Devices</h2>
+            <div id="practical8-content">
+                <h3>Aim: Perform a forensic analysis of a mobile device to retrieve call logs, text messages, and other data using MOBILedit Forensic.</h3>
+                <ul>
+                    <li>Connect a mobile device to the forensic toolkit.</li>
+                    <li>Perform a logical acquisition of the device data.</li>
+                    <li>Analyze the retrieved data and generate a report.</li>
+                </ul>
+                <hr>
+                <h3>Procedure:</h3>
+                <ol>
+                    <li><strong>Setup:</strong> Download and install the MOBILedit Forensic toolkit.</li>
+                    <li><strong>Start Connection:</strong> Launch the application. Click "Connect" to begin the acquisition process. Select "Phone" as the device type.</li>
+                    <li><strong>Choose Connection Method:</strong> Select "Cable Connection" as the method for connecting to the phone.</li>
+                    <li><strong>Enable USB Debugging:</strong> If the phone is not automatically detected, you must enable developer options on the device. Go to <strong>Settings > About Phone</strong> and tap the "Build Number" seven times. Then, go to the newly available <strong>Developer Options</strong> menu and enable <strong>USB Debugging</strong>.</li>
+                    <li><strong>Connect and Scan:</strong> Connect the phone to the computer via USB cable. Allow the toolkit to scan for and identify the device. Once found, select it and click Next.</li>
+                    <li><strong>Case Details:</strong> Fill in the case information (investigator name, case number, etc.) and browse for a directory to store the acquired data and logs.</li>
+                    <li><strong>Select Acquisition Type:</strong> Choose the type of data you want to acquire. For a comprehensive analysis, select the option to acquire all data from the device.</li>
+                    <li><strong>Begin Acquisition:</strong> Start the acquisition and wait for the process to complete.</li>
+                    <li><strong>Analyze Data:</strong> Once the acquisition is finished, open the case file. The interface will allow you to browse the extracted data, such as:
+                        <ul>
+                            <li><strong>Phonebook:</strong> Contacts stored on the device.</li>
+                            <li><strong>Call Logs:</strong> A record of all incoming, outgoing, and missed calls.</li>
+                            <li><strong>Messages:</strong> SMS and MMS messages.</li>
+                            <li><strong>Files:</strong> User files from internal storage, such as photos from the DCIM folder.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Generate Report:</strong> Use the report generation feature to create a forensic report. Fill in the investigator details and select the desired output format, such as an Excel spreadsheet. A success message will appear once the report is created.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="practical-container">
+            <h2>Practical 10: Web Browser Forensics</h2>
+            <div id="practical10-content">
+                <h3>Aim: Analyze browser artifacts to reconstruct user activity using Browser History Examiner.</h3>
+                <ul>
+                    <li>Analyze history, bookmarks, and download records.</li>
+                    <li>Analyze cache and cookie data to reconstruct browsing history.</li>
+                    <li>Extract and interpret timestamp data for user activity.</li>
+                </ul>
+                <hr>
+                <h3>Procedure:</h3>
+                <p>This practical uses <strong>Browser History Examiner</strong>. Note that this is a commercial tool with a free trial that limits the number of records you can view.</p>
+                <ol>
+                    <li><strong>Start the Application:</strong> Launch Browser History Examiner. If using the trial, click "Continue Trial" and "OK" on the subsequent prompts.</li>
+                    <li><strong>Capture History:</strong> Navigate to the menu and select <strong>File > Capture History</strong>.</li>
+                    <li><strong>Select Source:</strong> Choose to capture history from the local machine ("Capture from this PC") and click Next.</li>
+                    <li><strong>Configure Capture:</strong> Select the web browser(s) you wish to analyze. Provide a destination directory where the extracted history files will be saved, then start the capture.</li>
+                    <li><strong>Analyze Artifacts:</strong> Once the capture is complete, the tool's interface will populate with data. You can navigate through the different categories on the left pane to analyze various artifacts:</li>
+                    <ul>
+                        <li><strong>History:</strong> A chronological list of all visited URLs.</li>
+                        <li><strong>Bookmarks:</strong> Websites saved by the user.</li>
+                        <li><strong>Cache:</strong> View cached files, including images and full webpages, which can help reconstruct what the user saw.</li>
+                        <li><strong>Cookies:</strong> Inspect stored cookies for session data, user preferences, and tracking information.</li>
+                        <li><strong>Downloads:</strong> A record of all files downloaded by the browser.</li>
+                        <li><strong>Logins/Emails:</strong> May show email addresses and usernames used for website logins.</li>
+                        <li><strong>Searches:</strong> A specific list of search queries entered into search engines.</li>
+                        <li><strong>Website Visits:</strong> Provides a summary of user activity, often with timestamps indicating the last time a user was active online.</li>
+                    </ul>
+                </ol>
+            </div>
+        </div>
 
-        // File handling functions
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        </div>
 
-            const fileInfo = document.getElementById('fileInfo');
-            fileInfo.innerHTML = `
-                <strong>File:</strong> ${file.name}<br>
-                <strong>Size:</strong> ${(file.size / 1024 / 1024).toFixed(2)} MB<br>
-                <strong>Type:</strong> ${file.type || file.name.split('.').pop().toUpperCase()}
-            `;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                if (file.name.endsWith('.csv')) {
-                    parseCSV(e.target.result);
-                } else if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-                    parseExcel(e.target.result);
-                }
-            };
-
-            if (file.name.endsWith('.csv')) {
-                reader.readAsText(file);
-            } else {
-                reader.readAsArrayBuffer(file);
-            }
-        }
-
-        function parseCSV(csvText) {
-            Papa.parse(csvText, {
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    currentData = results.data;
-                    updateDataPreview();
-                    updateStats();
-                    populateAxisSelectors();
-                }
-            });
-        }
-
-        function parseExcel(arrayBuffer) {
-            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            
-            if (jsonData.length > 0) {
-                const headers = jsonData[0];
-                const data = jsonData.slice(1).map(row => {
-                    const obj = {};
-                    headers.forEach((header, index) => {
-                        obj[header] = row[index];
-                    });
-                    return obj;
-                });
-                currentData = data;
-                updateDataPreview();
-                updateStats();
-                populateAxisSelectors();
-            }
-        }
-
-        function updateDataPreview() {
-            const preview = document.getElementById('dataPreview');
-            if (!currentData || currentData.length === 0) {
-                preview.innerHTML = '<div class="no-data">No data to display</div>';
-                return;
-            }
-
-            const headers = Object.keys(currentData[0]);
-            const sampleData = currentData.slice(0, 5);
-            
-            let tableHTML = '<table class="preview-table"><thead><tr>';
-            headers.forEach(header => {
-                tableHTML += `<th>${header}</th>`;
-            });
-            tableHTML += '</tr></thead><tbody>';
-            
-            sampleData.forEach(row => {
-                tableHTML += '<tr>';
-                headers.forEach(header => {
-                    const value = row[header] !== undefined ? row[header] : '';
-                    tableHTML += `<td>${String(value).substring(0, 20)}${String(value).length > 20 ? '...' : ''}</td>`;
-                });
-                tableHTML += '</tr>';
-            });
-            
-            tableHTML += '</tbody></table>';
-            if (currentData.length > 5) {
-                tableHTML += `<p style="margin-top: 10px; font-size: 0.8rem; color: #666;">Showing 5 of ${currentData.length} rows</p>`;
-            }
-            
-            preview.innerHTML = tableHTML;
-        }
-
-        function updateStats() {
-            if (!currentData || currentData.length === 0) {
-                document.getElementById('totalRows').textContent = '0';
-                document.getElementById('totalColumns').textContent = '0';
-                document.getElementById('numericColumns').textContent = '0';
-                document.getElementById('textColumns').textContent = '0';
-                return;
-            }
-
-            const headers = Object.keys(currentData[0]);
-            let numericCount = 0;
-            let textCount = 0;
-
-            headers.forEach(header => {
-                const values = currentData.map(row => row[header]).filter(val => val !== null && val !== undefined && val !== '');
-                if (values.length > 0) {
-                    const isNumeric = values.every(val => !isNaN(parseFloat(val)) && isFinite(val));
-                    if (isNumeric) {
-                        numericCount++;
-                    } else {
-                        textCount++;
-                    }
-                }
-            });
-
-            document.getElementById('totalRows').textContent = currentData.length.toLocaleString();
-            document.getElementById('totalColumns').textContent = headers.length.toString();
-            document.getElementById('numericColumns').textContent = numericCount.toString();
-            document.getElementById('textColumns').textContent = textCount.toString();
-        }
-
-        function populateAxisSelectors() {
-            if (!currentData || currentData.length === 0) return;
-
-            const headers = Object.keys(currentData[0]);
-            const xAxisSelect = document.getElementById('xAxis');
-            const yAxisSelect = document.getElementById('yAxis');
-
-            // Clear existing options
-            xAxisSelect.innerHTML = '<option value="">Select column...</option>';
-            yAxisSelect.innerHTML = '<option value="">Select column...</option>';
-
-            headers.forEach(header => {
-                const option1 = document.createElement('option');
-                option1.value = header;
-                option1.textContent = header;
-                xAxisSelect.appendChild(option1);
-
-                const option2 = document.createElement('option');
-                option2.value = header;
-                option2.textContent = header;
-                yAxisSelect.appendChild(option2);
-            });
-        }
-        function updateChart() {
-    chartType = document.getElementById('chartType').value;
-    const xAxis = document.getElementById('xAxis').value;
-    const yAxis = document.getElementById('yAxis').value;
-
-    if (!currentData || !xAxis || !yAxis) {
-        document.getElementById('noChartMessage').style.display = 'block';
-        if (currentChart) {
-            currentChart.destroy();
-            currentChart = null;
-        }
-        return;
-    }
-
-    document.getElementById('noChartMessage').style.display = 'none';
-
-    let labels = [];
-    let data = [];
-
-    // 🔹 Scatter / Bubble
-    if (chartType === "scatter" || chartType === "bubble") {
-        data = currentData.map(row => {
-            const xVal = parseFloat(row[xAxis]);
-            const yVal = parseFloat(row[yAxis]);
-            if (!isNaN(xVal) && !isNaN(yVal)) {
-                return (chartType === "bubble")
-                    ? { x: xVal, y: yVal, r: Math.random() * 15 + 5 }
-                    : { x: xVal, y: yVal };
-            }
-            return null;
-        }).filter(item => item !== null);
-    // 🔹 Normal Charts (Bar, Line, Area, Pie, Doughnut, Polar, Radar)
-    } else {
-        const dataMap = new Map();
-        currentData.forEach(row => {
-            const xVal = row[xAxis];
-            const yVal = parseFloat(row[yAxis]);
-            if (xVal !== undefined && !isNaN(yVal)) {
-                dataMap.set(xVal, (dataMap.get(xVal) || 0) + yVal);
-            }
-        });
-        labels = Array.from(dataMap.keys()).slice(0, 20);
-        data = labels.map(label => dataMap.get(label));
-    }
-
-    // 🎨 Colors
-    const colorCount = (labels.length || data.length || 1);
-    const backgroundColors = Array.from({ length: colorCount }, (_, index) =>
-        `hsla(${(index * 360 / colorCount)}, 70%, 60%, 0.7)`
-    );
-    const borderColors = Array.from({ length: colorCount }, (_, index) =>
-        `hsla(${(index * 360 / colorCount)}, 70%, 40%, 1)`
-    );
-
-    // 🖌️ Destroy old chart if exists
-    const ctx = document.getElementById('mainChart').getContext('2d');
-    if (currentChart) currentChart.destroy();
-
-    // 🆕 Chart Config
-    const config = {
-        type: (chartType === "area") ? "line" :
-              (chartType === "timeseries") ? "line" : chartType,
-        data: {
-            labels: (chartType === "scatter" || chartType === "bubble" || chartType === "timeseries")
-                ? undefined : labels,
-            datasets: [{
-                label: yAxis,
-                data: data,
-                backgroundColor: backgroundColors,
-                borderColor: borderColors,
-                borderWidth: 2,
-                fill: (chartType === "area"), // Area chart के लिए fill
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: (chartType === 'pie' || chartType === 'doughnut' || chartType === 'polarArea' || chartType === 'radar'),
-                    position: 'right'
-                }
-            },
-            scales: (chartType === 'pie' || chartType === 'doughnut' || chartType === 'polarArea' || chartType === 'radar') ? {} : {
-                x: {
-                    type: (chartType === "timeseries") ? "time" :
-                          (chartType === "scatter" || chartType === "bubble") ? "linear" : "category",
-                    time: (chartType === "timeseries") ? { unit: "day" } : undefined,
-                    title: { display: true, text: xAxis }
-                },
-                y: {
-                    title: { display: true, text: yAxis },
-                    beginAtZero: !(chartType === "scatter" || chartType === "bubble" || chartType === "timeseries")
-                }
-            }
-        }
-    };
-
-    // 🔹 Create chart
-    currentChart = new Chart(ctx, config);
-}
-
-        async function saveChartAsPDF() {
-    if (!currentChart) {
-        alert("⚠️ Please generate a chart first!");
-        return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("landscape");
-
-    // Chart title
-    pdf.setFontSize(18);
-    pdf.text("📊 Data Visualization Report", 15, 20);
-
-    // Convert chart to image
-    const canvas = document.getElementById("mainChart");
-    const chartImage = canvas.toDataURL("image/png", 1.0);
-
-    // Add chart to PDF
-    pdf.addImage(chartImage, "PNG", 15, 30, 260, 120);
-
-    // Save PDF
-    pdf.save("chart-report.pdf");
-}
-
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in (for demo purposes)
-            const savedUser = localStorage.getItem('datapro_current_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                document.getElementById('welcomeUser').textContent = `Welcome, ${currentUser.name}!`;
-                showDashboard();
-            }
-        });
-
-        // Save current user on login for persistence
-        function saveCurrentUser() {
-            if (currentUser) {
-                localStorage.setItem('datapro_current_user', JSON.stringify(currentUser));
-            }
-        }
-
-        // Update login function to save user
-        const originalLogin = document.getElementById('loginForm').onsubmit;
-        document.getElementById('loginForm').onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (users[email] && users[email].password === password) {
-                currentUser = users[email];
-                document.getElementById('welcomeUser').textContent = `Welcome, ${currentUser.name}!`;
-                saveCurrentUser();
-                showDashboard();
-            } else {
-                alert('Invalid email or password');
-            }
-        };
-
-        // Update logout to clear saved user
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('datapro_current_user');
-            document.getElementById('dashboard').classList.remove('active');
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('loginForm').reset();
-            
-            // Clear chart data
-            if (currentChart) {
-                currentChart.destroy();
-                currentChart = null;
-            }
-            currentData = null;
-            updateDataPreview();
-            updateStats();
-        }
-    </script>
 </body>
+</html>
