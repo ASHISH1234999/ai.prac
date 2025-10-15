@@ -3,417 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Forensics Practicals</title>
+    <title>Selenium Practicals</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            background-color: #f0f2f5;
-            color: #1c1e21;
+            background-color: #f4f4f9;
+            color: #333;
         }
         .main-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         h1 {
             text-align: center;
-            color: #1877f2;
+            color: #4a4a4a;
             font-size: 2.5em;
             margin-bottom: 30px;
         }
         .practical-container {
             background-color: #ffffff;
-            border: 1px solid #dddfe2;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden; /* To contain the button's position */
+        }
+        .header {
+            padding: 15px 25px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         h2 {
-            font-size: 1.8em;
-            color: #1c1e21;
-            border-bottom: 2px solid #e7f3ff;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        h3 {
-            font-size: 1.3em;
+            font-size: 1.6em;
             color: #333;
-            margin-top: 20px;
+            margin: 0;
         }
-        p, li {
-            font-size: 1em;
-            color: #4b4f56;
-        }
-        ol, ul {
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        strong {
-            color: #050505;
-        }
-        code {
-            background-color: #e9ebee;
-            padding: 2px 5px;
-            border-radius: 4px;
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            margin: 0;
             font-family: "Courier New", Courier, monospace;
             font-size: 0.95em;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .copy-button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        .copy-button:active {
+            transform: scale(0.97);
         }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        <h1>Cyber Forensics Practicals</h1>
+        <h1>Selenium Automation Scripts</h1>
 
+        <!-- Practical 3A -->
         <div class="practical-container">
-            <h2>Practical 1: Creating a Forensic Image</h2>
-            <div id="practical1-content">
-                <h3>Aim: Creating a Forensic Image using FTK Imager</h3>
-                <ul>
-                    <li>Creating a Forensic Image</li>
-                    <li>Checking the Integrity of Data</li>
-                    <li>Analyzing a Forensic Image</li>
-                </ul>
-                <hr>
-                <h3>Part A: Creating a Forensic Image</h3>
-                <p>In this practical, we will use FTK Imager to create images of the evidence.</p>
-                <ol>
-                    <li>Click <strong>File</strong>, and then <strong>Create Disk Image</strong>, or click the corresponding button on the toolbar.</li>
-                    <li>Select the source evidence type you want to image and click <strong>Next</strong>.</li>
-                    <li>Select the source evidence file with its path.</li>
-                    <li>Click on <strong>Add</strong> to set the image destination.</li>
-                    <li>In the <strong>Image Destination Folder</strong> field, type the path where you want to save the image file, or click <strong>Browse</strong> to find the location.</li>
-                    <li>In the <strong>Image Filename</strong> field, specify a name for the image file (without a file extension). After setting the path, click <strong>Finish</strong>.</li>
-                    <li>Click <strong>Start</strong> to begin the image creation process.</li>
-                    <li>After the image is created, click <strong>Image Summary</strong> to view detailed information, including MD5 and SHA1 checksums.</li>
-                </ol>
-                <h3>Part B: Analyzing a Forensic Image</h3>
-                <ol>
-                    <li>Click on <strong>Add Evidence Item</strong> to add evidence from a disk, image file, or folder.</li>
-                    <li>Select the source evidence type as <strong>Image File</strong>.</li>
-                    <li>Browse to and open the evidence image file you created.</li>
-                    <li>Select <strong>Evidence Tree</strong> from the navigation pane to browse and analyze the contents of the image file.</li>
-                </ol>
-                <h3>Part C: Imaging a Physical Drive (e.g., Pen Drive)</h3>
-                <ol>
-                    <li>Select the source evidence type. Choose <strong>Physical Drive</strong> and proceed.</li>
-                    <li>Select the correct physical drive from the list (e.g., your pen drive) and click <strong>Finish</strong>.</li>
-                    <li>Add an image destination. For the format, select <strong>raw (dd)</strong>.</li>
-                    <li>Fill in the evidence item information (case number, evidence number, etc.).</li>
-                    <li>Create a destination folder on a different drive to save the image. Paste this location into the destination path field and click <strong>Finish</strong>.</li>
-                    <li>Click <strong>Start</strong> and wait for the imaging process to complete.</li>
-                    <li>Upon completion, FTK Imager will display the computed MD5 and SHA1 hash values. You can verify these against the source to ensure the integrity of the image.</li>
-                    <li>You can view and save the <strong>Image Summary</strong> for your records.</li>
-                </ol>
+            <div class="header">
+                <h2>Practical 3A: Search and Verify Title on Wikipedia</h2>
+                <button class="copy-button" onclick="copyCode('code-3a', this)">Copy Code</button>
             </div>
+            <pre class="code-block"><code id="code-3a">from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+driver = webdriver.Chrome()
+try:
+    driver.get("https://www.wikipedia.org/")
+    print("Opened Wikipedia homepage.")
+
+    search_box = driver.find_element(By.ID, "searchInput")
+    search_box.send_keys("software testing")
+    search_box.send_keys(Keys.RETURN)
+    print("Searched for 'software testing'.")
+
+    wait = WebDriverWait(driver, 10)
+    expected_title = "Software testing - Wikipedia"
+    wait.until(EC.title_is(expected_title))
+    
+    actual_title = driver.title
+    print(f"Actual page title is: {actual_title}")
+
+    if actual_title == expected_title:
+        print("Title Verification: PASSED!")
+    else:
+        print(f"Title Verification: FAILED! Expected '{expected_title}'")
+
+    heading_element = wait.until(EC.visibility_of_element_located((By.ID, "firstHeading")))
+    print(f"Article Heading: {heading_element.text}")
+
+finally:
+    print("Closing browser in 5 seconds...")
+    time.sleep(5)
+    driver.quit()</code></pre>
         </div>
 
+        <!-- Practical 3B -->
         <div class="practical-container">
-            <h2>Practical 2: Data Acquisition</h2>
-            <div id="practical2-content">
-                <h3>Aim: Perform data acquisition using a USB Write Blocker and Encase Imager.</h3>
-                <p>This practical demonstrates how to enable write protection for USB drives via the Windows Registry, effectively turning the system into a software-based write blocker.</p>
-                <hr>
-                <h3>Enabling USB Write Protection (Registry Method)</h3>
-                <ol>
-                    <li>Open the Run dialog box (Windows Key + R), type <code>regedit</code>, and press Enter to open the Registry Editor.</li>
-                    <li>In the Registry Editor, navigate to the following key in the left panel: <br><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</code></li>
-                    <li>Right-click on the <strong>Control</strong> key, select <strong>New</strong>, and then click on <strong>Key</strong>.</li>
-                    <li>Name the new key <code>StorageDevicePolicies</code> and press Enter.</li>
-                    <li>Select the newly created <strong>StorageDevicePolicies</strong> key in the left panel.</li>
-                    <li>Right-click on an empty space in the right panel, select <strong>New</strong>, and then choose <strong>DWORD (32-bit) Value</strong>.</li>
-                    <li>Name this new DWORD value <code>WriteProtect</code>.</li>
-                    <li>Double-click on the new <strong>WriteProtect</strong> value. Change its 'Value data' from <strong>0</strong> to <strong>1</strong> and click OK.</li>
-                    <li>Restart your computer for the changes to take effect.</li>
-                    <li>After restarting, any USB drive connected to the computer will be write-protected. You can read files from it, but you cannot modify, delete, or add new files to the drive.</li>
-                </ol>
-                <h3>Acquisition using Encase Imager (General Steps)</h3>
-                <p>After ensuring the source media is write-protected, you can proceed with imaging.</p>
-                <ol>
-                    <li>Launch your forensic imaging tool (e.g., Encase Imager).</li>
-                    <li>From the main interface, choose to create a new evidence file or start a new case.</li>
-                    <li>Select the source device you wish to acquire. This will be the write-protected USB drive.</li>
-                    <li>In the 'Create Image' or similar dialog box, click <strong>Add</strong> to specify the evidence details.</li>
-                    <li>Fill in the case information, such as Case Number, Evidence Number, Examiner Name, and a unique description of the evidence.</li>
-                    <li>Specify the destination path where the forensic image will be saved. Ensure the destination has enough free space.</li>
-                    <li>Select the image format (e.g., E01, Ex01).</li>
-                    <li>Begin the acquisition process. The tool will create a bit-for-bit copy of the source drive and compute hash values (MD5, SHA-1) to verify the integrity of the created image.</li>
-                </ol>
+            <div class="header">
+                <h2>Practical 3B: Interact with a Dropdown Menu</h2>
+                <button class="copy-button" onclick="copyCode('code-3b', this)">Copy Code</button>
             </div>
+            <pre class="code-block"><code id="code-3b">from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+driver = webdriver.Chrome()
+try:
+    driver.maximize_window()
+    driver.get("https://the-internet.herokuapp.com/dropdown")
+
+    wait = WebDriverWait(driver, 10)
+    dropdown_locator = (By.ID, "dropdown")
+    dropdown_element = wait.until(EC.presence_of_element_located(dropdown_locator))
+
+    select = Select(dropdown_element)
+    select.select_by_visible_text("Option 2")
+
+    expected_option_text = "Option 2"
+    selected_option_text = select.first_selected_option.text
+
+    if selected_option_text == expected_option_text:
+        print("✅ Dropdown verification PASSED!")
+    else:
+        print("❌ Dropdown verification FAILED!")
+
+finally:
+    print("Test finished. Closing browser...")
+    time.sleep(3)
+    driver.quit()</code></pre>
         </div>
+
+        <!-- Practical 4A -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 4A: Automate Login Process</h2>
+                <button class="copy-button" onclick="copyCode('code-4a', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-4a">import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+try:
+    driver.maximize_window()
+    driver.get("https://the-internet.herokuapp.com/login")
+
+    driver.find_element(By.ID, "username").send_keys("tomsmith")
+    driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+
+    wait = WebDriverWait(driver, 10)
+    expected_banner_text = "You logged into a secure area!"
+    flash_banner = wait.until(EC.visibility_of_element_located((By.ID, "flash")))
+    
+    actual_banner_text = flash_banner.text
+    assert expected_banner_text in actual_banner_text
+    print("✅ Assertion PASSED: Success banner text is correct!")
+
+    logout_button = driver.find_element(By.CSS_SELECTOR, "a.button.secondary.radius")
+    assert logout_button.is_displayed()
+    print("✅ Assertion PASSED: Logout button is displayed.")
+    
+    print("\n🎉 Login test completed successfully!")
+
+except AssertionError:
+    print("\n❌ Assertion FAILED: Login verification failed.")
+except Exception as e:
+    print(f"\nAn unexpected error occurred: {e}")
+finally:
+    print("Closing browser in 3 seconds...")
+    time.sleep(3)
+    driver.quit()</code></pre>
+        </div>
+
+        <!-- Practical 5 -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 5: Update Student Records from Excel</h2>
+                <button class="copy-button" onclick="copyCode('code-5', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-5">import openpyxl
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+
+try:
+    workbook = openpyxl.load_workbook("Untitled spreadsheet.xlsx")
+    sheet = workbook.active
+except FileNotFoundError:
+    print("Error: 'Untitled spreadsheet.xlsx' not found. Make sure it's in the same folder as the script.")
+    exit()
+
+driver = webdriver.Chrome()
+
+for row_num in range(2, sheet.max_row + 1):
+    username = sheet.cell(row=row_num, column=1).value
+    password = sheet.cell(row=row_num, column=2).value
+
+    if not (username and password):
+        print(f"Skipping row {row_num} due to missing data.")
+        continue
+
+    print(f"--- Processing Row {row_num}: User '{username}' ---")
+    driver.get("https://the-internet.herokuapp.com/login")
+    
+    username_field = driver.find_element(By.ID, "username")
+    password_field = driver.find_element(By.ID, "password")
+    
+    username_field.clear()
+    username_field.send_keys(username)
+    password_field.clear()
+    password_field.send_keys(password)
+    
+    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+    time.sleep(2)
+
+    try:
+        driver.find_element(By.CSS_SELECTOR, "a.button.secondary.radius")
+        print("✅ Login Successful!")
+        sheet.cell(row=row_num, column=3).value = "Passed"
+    except NoSuchElementException:
+        print("❌ Login Failed!")
+        sheet.cell(row=row_num, column=3).value = "Failed"
+
+try:
+    workbook.save("Untitled spreadsheet_results.xlsx")
+    print("\nTest complete. Results saved to 'Untitled spreadsheet_results.xlsx'.")
+except PermissionError:
+    print("\nError: Could not save the Excel file. Please ensure it is not open.")
+
+input("Press Enter in the terminal to close the browser...")
+driver.quit()</code></pre>
+        </div>
+
+        <!-- Practical 6A -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 6A: Analyze Student Scores in Excel</h2>
+                <button class="copy-button" onclick="copyCode('code-6a', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-6a">import openpyxl
+
+filename = "untitled spreadsheet.xlsx"
+try:
+    my_wb = openpyxl.load_workbook(filename)
+    my_s = my_wb["Sheet1"]
+
+    for r in range(2, my_s.max_row + 1):
+        has_passed_one_subject = False
+        for c in range(2, 5): # Assuming scores are in columns B, C, D
+            score = my_s.cell(row=r, column=c).value
+            if score is not None and str(score).isdigit() and int(score) > 60:
+                has_passed_one_subject = True
+                break
         
-        <div class="practical-container">
-            <h2>Practical 4: Capturing and Analyzing Network Packets</h2>
-            <div id="practical4-content">
-                <h3>Aim: Capturing and analyzing network packets using Wireshark (Fundamentals)</h3>
-                <ul>
-                    <li>Identify the live network</li>
-                    <li>Capture packets</li>
-                    <li>Analyze the captured packets</li>
-                </ul>
-                <hr>
-                <h3>Capturing Packets</h3>
-                <ol>
-                    <li>To start capturing traffic, click on your network interface (e.g., Wi-Fi, Ethernet).</li>
-                    <li>As soon as you click the interface, Wireshark will begin capturing packets in real time.</li>
-                    <li><strong>Promiscuous Mode:</strong> This mode allows your network card to capture all packets on the network segment, not just those addressed to your machine. It is enabled by default in Wireshark.</li>
-                    <li>To verify, go to <strong>Capture > Options</strong>. Ensure the "Enable promiscuous mode on all interfaces" checkbox is checked at the bottom of the window.</li>
-                </ol>
-                
-                <h3>Analyze the Captured Packets</h3>
-                <p><strong>Color Coding:</strong> Wireshark uses colors to help you identify different types of traffic at a glance.</p>
-                <ul>
-                    <li>Light Purple: TCP traffic</li>
-                    <li>Light Blue: UDP traffic</li>
-                    <li>Black: Packets with errors</li>
-                </ul>
-                <p>You can create custom coloring rules by going to <strong>View > Coloring Rules</strong>.</p>
-                <hr>
-                <h3>Using Display Filters</h3>
-                <p>Apply filters in the bar at the top of the window to narrow down the captured data.</p>
-                <ol>
-                    <li><strong>Display packets for a specific IP address (source or destination):</strong><br>
-                        <code>ip.addr == 192.0.2.1</code></li>
-                    <li><strong>Display packets from a specific source IP address:</strong><br>
-                        <code>ip.src == 192.168.10.28</code></li>
-                    <li><strong>Display packets going to a specific destination IP address:</strong><br>
-                        <code>ip.dst == 192.168.10.28</code></li>
-                    <li><strong>Display packets using the HTTP protocol:</strong><br>
-                        <code>http</code></li>
-                    <li><strong>Display only HTTP request packets:</strong><br>
-                        <code>http.request</code></li>
-                    <li><strong>Display packets using the TCP protocol:</strong><br>
-                        <code>tcp</code></li>
-                    <li><strong>Display packets with an HTTP success code (OK):</strong><br>
-                        <code>http.response.code == 200</code></li>
-                    <li><strong>Display packets on either TCP port 80 or UDP port 443:</strong><br>
-                        <code>tcp.port == 80 || udp.port == 443</code></li>
-                    <li><strong>Display TCP packets containing a specific keyword (e.g., "facebook"):</strong><br>
-                        <code>tcp contains facebook</code></li>
-                </ol>
-                <h3>Further Analysis</h3>
-                <ol>
-                    <li><strong>Find Web Server Name:</strong> The web server name is often in the HTTP response header. Apply the filter <code>http.response</code> to see all HTTP response packets.</li>
-                    <li><strong>Apply as Column:</strong> To easily see all server names, find a packet, expand the HTTP protocol details in the packet details pane, right-click on the "Server" field, and select "Apply as Column".</li>
-                    <li><strong>View Endpoints:</strong> To see a summary of all connections, go to <strong>Statistics > Endpoints</strong>. This will show all IP addresses that communicated during the capture.</li>
-                </ol>
-                <h3>Conclusion</h3>
-                <p>We have successfully analyzed the packets provided and solved the questions using Wireshark.</p>
-            </div>
+        if has_passed_one_subject:
+            my_s.cell(row=r, column=5).value = "Pass" # Update status in column E
+        else:
+            my_s.cell(row=r, column=5).value = "Fail"
+
+    my_wb.save(filename)
+    print(f"✅ Analysis complete. '{filename}' has been updated.")
+
+except FileNotFoundError:
+    print(f"❌ Error: Could not find the file '{filename}'")
+except Exception as e:
+    print(f"❌ An error occurred: {e}")</code></pre>
         </div>
 
+        <!-- Practical 6B -->
         <div class="practical-container">
-            <h2>Practical 5: Using Sysinternals Tools for Network Tracking and Process Monitoring</h2>
-            <div id="practical5-content">
-                <h3>Aim:</h3>
-                <ul>
-                    <li>Check Sysinternals tools</li>
-                    <li>Monitor Live Processes</li>
-                    <li>Capture RAM</li>
-                    <li>Capture TCP/UDP packets</li>
-                    <li>Monitor Hard Disk</li>
-                    <li>Monitor Virtual Memory</li>
-                    <li>Monitor Cache Memory</li>
-                </ul>
-                <hr>
-                <h3>Check Sysinternals Tools</h3>
-                <p>Windows Sysinternals tools are utilities to manage, diagnose, troubleshoot, and monitor a Microsoft Windows environment. First, download the suite from the official Microsoft website if not already installed.</p>
-                <p>The tools fall into several categories:</p>
-                <ol>
-                    <li>File and Disk Utilities</li>
-                    <li>Networking Utilities</li>
-                    <li>Process Utilities</li>
-                    <li>Security Utilities</li>
-                    <li>System Information Utilities</li>
-                    <li>Miscellaneous Utilities</li>
-                </ol>
-                <hr>
-                <h3>1. Monitor Live Processes (Tool: Process Monitor - ProcMon)</h3>
-                <p><code>ProcMon</code> is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity.</p>
-                <p><strong>Features to use:</strong> Filter, Process Tree, Process Activity Summary, Count Occurrences.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>procmon.exe</code>.</li>
-                    <li>Grant administrative permissions if prompted.</li>
-                    <li>The capture starts immediately. You can use the Filter menu (Ctrl+L) to narrow down the results to a specific process name, PID, etc.</li>
-                    <li>Click Apply and OK to see the filtered processes.</li>
-                </ol>
-
-                <h3>2. Capture RAM (Tool: RAMMap)</h3>
-                <p><code>RAMMap</code> is an advanced physical memory usage analysis utility.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>RAMMap.exe</code>.</li>
-                    <li>Allow the permissions to view a detailed, color-coded map of how Windows is assigning physical memory.</li>
-                </ol>
-                
-                <h3>3. Capture TCP/UDP packets (Tool: TCPView)</h3>
-                <p><code>TCPView</code> shows detailed listings of all TCP and UDP endpoints on your system, including local/remote addresses and connection states.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>TCPView.exe</code>.</li>
-                    <li>The program will immediately enumerate and display all active TCP and UDP connections.</li>
-                </ol>
-
-                <h3>4. Monitor Hard Disk (Tool: DiskMon)</h3>
-                <p><code>DiskMon</code> logs and displays all hard disk activity on a Windows system.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>Diskmon.exe</code> as an Administrator.</li>
-                    <li>It will begin logging all disk I/O activity.</li>
-                </ol>
-
-                <h3>5. Monitor Virtual Memory (Tool: VMMap)</h3>
-                <p><code>VMMap</code> is a process virtual and physical memory analysis utility.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>VMMap.exe</code>.</li>
-                    <li>Select a running process to see a graphical breakdown of its committed virtual memory types and the physical memory assigned to them.</li>
-                </ol>
-
-                <h3>6. Monitor Cache Memory (Tool: CacheSet)</h3>
-                <p><code>CacheSet</code> is an applet that allows you to manipulate the working-set parameters of the system file cache.</p>
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Run <code>CacheSet.exe</code>.</li>
-                    <li>Agree to the license terms.</li>
-                    <li>You can view the current cache size and adjust the minimum and maximum working set sizes, then click Apply.</li>
-                </ol>
+            <div class="header">
+                <h2>Practical 6B: Verify Student Eligibility Online</h2>
+                <button class="copy-button" onclick="copyCode('code-6b', this)">Copy Code</button>
             </div>
-        </div>
+            <pre class="code-block"><code id="code-6b">import openpyxl
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
 
-        <div class="practical-container">
-            <h2>Practical 6: Recovering and Inspecting Deleted Files</h2>
-            <div id="practical6-content">
-                <h3>Aim: Using Autopsy to find, recover, and inspect deleted files from a forensic image.</h3>
-                <ul>
-                    <li>Check for Deleted Files</li>
-                    <li>Recover the Deleted Files</li>
-                    <li>Analyze and Inspect the recovered files</li>
-                </ul>
-                <hr>
-                <h3>Procedure:</h3>
-                <p>In this practical, we will use Autopsy, a digital forensics platform, to analyze the forensic image created in Practical 1.</p>
-                <ol>
-                    <li><strong>Create a New Case:</strong> Open Autopsy and click on "New Case".</li>
-                    <li><strong>Case Information:</strong> Give the case a name (e.g., "Deleted File Recovery") and choose a base directory to save the case files. Click Next.</li>
-                    <li><strong>Optional Details:</strong> Fill in the case number and examiner details as needed. These can correspond to the details used when creating the image. Click Finish.</li>
-                    <li><strong>Select Data Source:</strong> The "Add Data Source" wizard will open. Select "Disk Image or VM File" and click Next.</li>
-                    <li><strong>Provide Path:</strong> Browse to and select the forensic image file (e.g., the `.dd` or `.E01` file from Practical 1). Click Next.</li>
-                    <li><strong>Configure Ingest Modules:</strong> Leave the default ingest modules selected. These modules will automatically process the image to find deleted files, emails, web history, and more. Click Next.</li>
-                    <li><strong>Start Analysis:</strong> Autopsy will show a summary. Click Finish to add the data source and begin the analysis. This may take some time depending on the size of the image.</li>
-                    <li><strong>Check for Deleted Files:</strong> Once the analysis is complete, navigate the tree on the left side. Expand "Views" > "File Types" and click on "Deleted Files". The main window will now list all the deleted files Autopsy was able to identify.</li>
-                    <li><strong>Recover/Extract Files:</strong> To recover a file, right-click on it in the list and select "Extract File(s)".</li>
-                    <li><strong>Set Destination:</strong> Choose a directory on your system where you want to save the recovered files.</li>
-                    <li><strong>Generate a Report:</strong> Go to the "Generate Report" button in the toolbar.</li>
-                    <li><strong>Select Report Format:</strong> Choose the desired report format (e.g., Excel, HTML). Click Next.</li>
-                    <li><strong>Select Results:</strong> Choose to include all results in the report and click Finish. Autopsy will generate a comprehensive report of its findings.</li>
-                    <li><strong>View Report:</strong> Once finished, you can close the dialog and open the generated report from the directory where your case is saved.</li>
-                </ol>
-            </div>
-        </div>
+filename = "untitled spreadsheet.xlsx"
+driver = None
+try:
+    my_wb = openpyxl.load_workbook(filename)
+    my_s = my_wb["Sheet1"]
 
-        <div class="practical-container">
-            <h2>Practical 7: Steganography Detection</h2>
-            <div id="practical7-content">
-                <h3>Aim: Detect and extract hidden information or files within digital images using S-Tools.</h3>
-                <ul>
-                    <li>Hide a secret file within a host image.</li>
-                    <li>Detect and reveal the hidden content from the steganographic image.</li>
-                </ul>
-                <hr>
-                <h3>Part A: Hiding Data</h3>
-                <ol>
-                    <li><strong>Setup:</strong> Download and unzip the S-Tools utility. Run <code>S-tools.exe</code>.</li>
-                    <li><strong>Prepare Files:</strong> Have a host image file (e.g., <code>sample.bmp</code>) and a secret file you want to hide (e.g., a text file) ready.</li>
-                    <li><strong>Load Host Image:</strong> Drag the host image (<code>sample.bmp</code>) and drop it into the S-Tools window. An icon for the image will appear.</li>
-                    <li><strong>Hide Secret File:</strong> Drag your secret file (e.g., the text document) and drop it directly onto the image icon *inside* the S-Tools window.</li>
-                    <li><strong>Set Password:</strong> A dialog box will appear. Enter a password (e.g., "abc") and select an encryption algorithm (e.g., IDEA). Click OK.</li>
-                    <li><strong>Save Steganographic Image:</strong> S-Tools will process the files. A new image icon will appear in the window, representing the image with the hidden data. Right-click this new icon, select "Save As," and save it with a new name (e.g., <code>hidden_data.bmp</code>). This new file will look identical to the original but contains your secret file.</li>
-                </ol>
-                <hr>
-                <h3>Part B: Revealing Data</h3>
-                <ol>
-                    <li><strong>Open Image:</strong> Open a new S-Tools window (or clear the existing one). Drag the steganographic image (<code>hidden_data.bmp</code>) into the window.</li>
-                    <li><strong>Initiate Reveal:</strong> Right-click on the image icon inside S-Tools and select "Reveal".</li>
-                    <li><strong>Enter Password:</strong> A dialog box will prompt you for the password and encryption algorithm. Enter the same credentials you used to hide the file (e.g., password "abc", algorithm IDEA) and click OK.</li>
-                    <li><strong>View Revealed Archive:</strong> After processing, a "Revealed Archive" window will appear. This window lists the secret file(s) that were hidden inside the image.</li>
-                    <li><strong>Save Secret File:</strong> Right-click on the file in the "Revealed Archive" list and select "Save As" to extract and save the hidden file to your computer. You can now open it to view the secret information.</li>
-                </ol>
-            </div>
-        </div>
+    print("Starting browser...")
+    driver = webdriver.Firefox()
+    driver.get("https://forms.gle/12345abcde") # Example Form URL
+    time.sleep(2)
 
-        <div class="practical-container">
-            <h2>Practical 8: Acquisition of Cell Phones and Mobile Devices</h2>
-            <div id="practical8-content">
-                <h3>Aim: Perform a forensic analysis of a mobile device to retrieve call logs, text messages, and other data using MOBILedit Forensic.</h3>
-                <ul>
-                    <li>Connect a mobile device to the forensic toolkit.</li>
-                    <li>Perform a logical acquisition of the device data.</li>
-                    <li>Analyze the retrieved data and generate a report.</li>
-                </ul>
-                <hr>
-                <h3>Procedure:</h3>
-                <ol>
-                    <li><strong>Setup:</strong> Download and install the MOBILedit Forensic toolkit.</li>
-                    <li><strong>Start Connection:</strong> Launch the application. Click "Connect" to begin the acquisition process. Select "Phone" as the device type.</li>
-                    <li><strong>Choose Connection Method:</strong> Select "Cable Connection" as the method for connecting to the phone.</li>
-                    <li><strong>Enable USB Debugging:</strong> If the phone is not automatically detected, you must enable developer options on the device. Go to <strong>Settings > About Phone</strong> and tap the "Build Number" seven times. Then, go to the newly available <strong>Developer Options</strong> menu and enable <strong>USB Debugging</strong>.</li>
-                    <li><strong>Connect and Scan:</strong> Connect the phone to the computer via USB cable. Allow the toolkit to scan for and identify the device. Once found, select it and click Next.</li>
-                    <li><strong>Case Details:</strong> Fill in the case information (investigator name, case number, etc.) and browse for a directory to store the acquired data and logs.</li>
-                    <li><strong>Select Acquisition Type:</strong> Choose the type of data you want to acquire. For a comprehensive analysis, select the option to acquire all data from the device.</li>
-                    <li><strong>Begin Acquisition:</strong> Start the acquisition and wait for the process to complete.</li>
-                    <li><strong>Analyze Data:</strong> Once the acquisition is finished, open the case file. The interface will allow you to browse the extracted data, such as:
-                        <ul>
-                            <li><strong>Phonebook:</strong> Contacts stored on the device.</li>
-                            <li><strong>Call Logs:</strong> A record of all incoming, outgoing, and missed calls.</li>
-                            <li><strong>Messages:</strong> SMS and MMS messages.</li>
-                            <li><strong>Files:</strong> User files from internal storage, such as photos from the DCIM folder.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Generate Report:</strong> Use the report generation feature to create a forensic report. Fill in the investigator details and select the desired output format, such as an Excel spreadsheet. A success message will appear once the report is created.</li>
-                </ol>
-            </div>
-        </div>
+    for r in range(2, my_s.max_row + 1):
+        student_is_eligible = False
+        name = my_s.cell(row=r, column=1).value
         
-        <div class="practical-container">
-            <h2>Practical 10: Web Browser Forensics</h2>
-            <div id="practical10-content">
-                <h3>Aim: Analyze browser artifacts to reconstruct user activity using Browser History Examiner.</h3>
-                <ul>
-                    <li>Analyze history, bookmarks, and download records.</li>
-                    <li>Analyze cache and cookie data to reconstruct browsing history.</li>
-                    <li>Extract and interpret timestamp data for user activity.</li>
-                </ul>
-                <hr>
-                <h3>Procedure:</h3>
-                <p>This practical uses <strong>Browser History Examiner</strong>. Note that this is a commercial tool with a free trial that limits the number of records you can view.</p>
-                <ol>
-                    <li><strong>Start the Application:</strong> Launch Browser History Examiner. If using the trial, click "Continue Trial" and "OK" on the subsequent prompts.</li>
-                    <li><strong>Capture History:</strong> Navigate to the menu and select <strong>File > Capture History</strong>.</li>
-                    <li><strong>Select Source:</strong> Choose to capture history from the local machine ("Capture from this PC") and click Next.</li>
-                    <li><strong>Configure Capture:</strong> Select the web browser(s) you wish to analyze. Provide a destination directory where the extracted history files will be saved, then start the capture.</li>
-                    <li><strong>Analyze Artifacts:</strong> Once the capture is complete, the tool's interface will populate with data. You can navigate through the different categories on the left pane to analyze various artifacts:</li>
-                    <ul>
-                        <li><strong>History:</strong> A chronological list of all visited URLs.</li>
-                        <li><strong>Bookmarks:</strong> Websites saved by the user.</li>
-                        <li><strong>Cache:</strong> View cached files, including images and full webpages, which can help reconstruct what the user saw.</li>
-                        <li><strong>Cookies:</strong> Inspect stored cookies for session data, user preferences, and tracking information.</li>
-                        <li><strong>Downloads:</strong> A record of all files downloaded by the browser.</li>
-                        <li><strong>Logins/Emails:</strong> May show email addresses and usernames used for website logins.</li>
-                        <li><strong>Searches:</strong> A specific list of search queries entered into search engines.</li>
-                        <li><strong>Website Visits:</strong> Provides a summary of user activity, often with timestamps indicating the last time a user was active online.</li>
-                    </ul>
-                </ol>
-            </div>
+        for c in range(2, 5): # Assuming scores are in columns B, C, D
+            score = my_s.cell(row=r, column=c).value
+            if score is not None and str(score).isdigit() and int(score) > 60:
+                student_is_eligible = True
+                break
+        
+        if student_is_eligible:
+            print(f"✅ Verifying '{name}' online...")
+            # This is a placeholder for actual form interaction
+            # For a real form, you would find elements and fill them:
+            # name_field = driver.find_element(By.XPATH, '//*[...]/input')
+            # name_field.send_keys(name)
+            # driver.find_element(By.XPATH, '//*[...]/button').click()
+            my_s.cell(row=r, column=5).value = "Verified Online"
+            time.sleep(1)
+        else:
+            print(f"❌ '{name}' is not eligible for verification.")
+            my_s.cell(row=r, column=5).value = "Not Eligible"
+
+    my_wb.save(filename)
+    print(f"\nAll done! '{filename}' has been updated with the results.")
+
+except FileNotFoundError:
+    print(f"❌ ERROR: '{filename}' was not found. Make sure it's in the same folder.")
+except Exception as e:
+    print(f"❌ An error occurred: {e}")
+finally:
+    if driver:
+        print("Closing browser.")
+        driver.quit()</code></pre>
         </div>
 
+        <!-- Practical 7 -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 7: Count Web Page Objects</h2>
+                <button class="copy-button" onclick="copyCode('code-7', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-7">from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://en.wikipedia.org/wiki/Amazon_(company)")
+
+inputs = driver.find_elements(By.TAG_NAME, "input")
+print(f"Total number of input elements: {len(inputs)}")
+
+checkbox_count = 0
+checked_checkboxes = 0
+radio_count = 0
+checked_radios = 0
+text_count = 0
+button_count = 0
+other_inputs = 0
+
+for element in inputs:
+    input_type = element.get_attribute("type")
+    if input_type == "checkbox":
+        checkbox_count += 1
+        if element.is_selected():
+            checked_checkboxes += 1
+    elif input_type == "radio":
+        radio_count += 1
+        if element.is_selected():
+            checked_radios += 1
+    elif input_type == "text":
+        text_count += 1
+    elif input_type == "button" or input_type == "submit" or input_type == "reset":
+        button_count += 1
+    else:
+        other_inputs += 1
+
+print(f"Total checkboxes: {checkbox_count}")
+print(f"Checked checkboxes: {checked_checkboxes}")
+print(f"Total radio buttons: {radio_count}")
+print(f"Checked radio buttons: {checked_radios}")
+print(f"Text inputs: {text_count}")
+print(f"Buttons (Submit/Reset/etc): {button_count}")
+print(f"Other input types: {other_inputs}")
+
+driver.quit()</code></pre>
         </div>
+
+        <!-- Practical 8 -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 8: Count Items in a Combo Box</h2>
+                <button class="copy-button" onclick="copyCode('code-8', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-8">from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+import time
+
+# Note: This script requires a local HTML file with a combo box.
+# Create a file named "ComboBox.html" with this content:
+# &lt;select id="myComboBox"&gt;
+#   &lt;option&gt;Option 1&lt;/option&gt;
+#   &lt;option&gt;Option 2&lt;/option&gt;
+#   &lt;option&gt;Option 3&lt;/option&gt;
+# &lt;/select&gt;
+
+driver = webdriver.Chrome()
+try:
+    # IMPORTANT: Update this path to where your ComboBox.html file is located
+    driver.get("file:///C:/Users/anike/OneDrive/Desktop/New folder/ComboBox.html")
+    time.sleep(2) # Wait for local file to load
+
+    combobox_element = driver.find_element(By.ID, "myComboBox")
+    print("✅ Successfully found the combo box element.")
+
+    select_object = Select(combobox_element)
+    options = select_object.options
+    
+    print(f"Number of options: {len(options)}")
+    for option in options:
+        print(f"- {option.text}")
+
+except Exception as e:
+    print("❌ Error: Could not find the element or another issue occurred.")
+    print(f"Details: {e}")
+
+finally:
+    print("Closing browser.")
+    time.sleep(3)
+    driver.quit()</code></pre>
+        </div>
+
+        <!-- Practical 9 -->
+        <div class="practical-container">
+            <div class="header">
+                <h2>Practical 9: Count Checkboxes</h2>
+                <button class="copy-button" onclick="copyCode('code-9', this)">Copy Code</button>
+            </div>
+            <pre class="code-block"><code id="code-9">from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://omayo.blogspot.com/")
+
+checkboxes = driver.find_elements(By.XPATH, '//input[@type="checkbox"]')
+print(f"Total checkboxes: {len(checkboxes)}")
+
+checked_count = 0
+for checkbox in checkboxes:
+    if checkbox.is_selected():
+        checked_count += 1
+
+print(f"Number of checked checkboxes: {checked_count}")
+# To get unchecked count, simply subtract checked from total
+print(f"Number of unchecked checkboxes: {len(checkboxes) - checked_count}")
+
+driver.quit()</code></pre>
+        </div>
+
+    </div>
+
+    <script>
+        function copyCode(elementId, buttonElement) {
+            const codeElement = document.getElementById(elementId);
+            const textToCopy = codeElement.innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Success feedback
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = 'Copied! ✅';
+                buttonElement.style.backgroundColor = '#28a745'; // Green color for success
+                
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                    buttonElement.style.backgroundColor = '#007bff'; // Revert to original blue color
+                }, 2000); // Revert back after 2 seconds
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text. Please try again.');
+            });
+        }
+    </script>
 
 </body>
 </html>
+
